@@ -40,7 +40,13 @@ public class DownloadExcelController {
             response.setContentType("application/vnd.ms-excel;charset=utf-8");
             response.setHeader("Content-Disposition", "attchement;filename=" + fileName);
             OutputStream os = response.getOutputStream();
-            os.write(is.readAllBytes());
+          //  os.write(is.readAllBytes());
+          byte[] buffer = new byte[1024]; // 可以根据需要调整缓冲区大小
+          int bytesRead;
+          while ((bytesRead = is.read(buffer)) != -1) {
+            os.write(buffer, 0, bytesRead);
+          }
+
             os.flush();
             os.close();
             is.close();
